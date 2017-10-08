@@ -9,6 +9,12 @@ Hope this helps you. Please let me know if you have any questions or comments.
 Regards, Peter
 
 ## Usage
+Install via npm: 
+
+```javascript
+npm i --save magento-soap-promise
+```
+
 
 ```javascript
 
@@ -17,7 +23,7 @@ Regards, Peter
 
 'use strict';
 
-const magentoClient = require('./magento-soap-promise.js')
+const magentoClient = require('magento-soap-promise')
 
 var mag = new magentoClient('https://www.yourdomain.com/api/v2_soap/?wsdl', 'Username', 'ApiKey');
 
