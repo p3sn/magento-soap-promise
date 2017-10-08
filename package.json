@@ -1,6 +1,6 @@
 {
   "name": "magento-soap-promise",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "NodeJS module for Magento 1.x SOAP API using promises",
   "main": "magento-soap-promise.js",
   "scripts": {
