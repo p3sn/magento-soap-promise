@@ -1,0 +1,21 @@
+{
+  "name": "magento-soap-promise",
+  "version": "0.0.2",
+  "description": "NodeJS module for Magento 1.x SOAP API using promises",
+  "main": "magento-soap-promise.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "magento",
+    "soap",
+    "promises",
+    "nodejs",
+    "wsdl"
+  ],
+  "author": "Peter Driessen - info@studioio.io",
+  "license": "MIT",
+  "dependencies": {
+    "strong-soap": "^1.2.6"
+  }
+}
