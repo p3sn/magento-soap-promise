@@ -48,6 +48,7 @@ MagentoClient.prototype.customCall = function(fn, subargs) {
         that.client[fn](args, function(err, result) {
             if(err) reject(err.body);
             resolve(result);
+            //console.log(that.client.lastRequest);   
         });
     });
 }
@@ -57,25 +58,25 @@ MagentoClient.prototype.customCall = function(fn, subargs) {
 // method: getOrder
 MagentoClient.prototype.getOrder = function(increment_id) {
     var subargs={orderIncrementId:increment_id};
-    return this.customCall('salesOrderInfo', subargs);
+    return this.customCall('salesOrderInfo', subargs);  
 }
 
 // method: getPendingOrders
 MagentoClient.prototype.getPendingOrders = function() {
     var subargs={filters:{filter:{item:{key:"status",value:"pending"}}}};
-    return this.customCall('salesOrderList', subargs);
+    return this.customCall('salesOrderList', subargs);   
 }
 
 // method: getProcessingOrders
 MagentoClient.prototype.getProcessingOrders = function() {
     var subargs={filters:{filter:{item:{key:"status",value:"processing"}}}};
-    return this.customCall('salesOrderList', subargs);
+    return this.customCall('salesOrderList', subargs);   
 }
 
 // method: commentOrder
 MagentoClient.prototype.commentOrder = function(increment_id, status, comment) {
     var subargs={orderIncrementId:increment_id,status:status,comment:comment};
-    return this.customCall('salesOrderAddComment', subargs);
+    return this.customCall('salesOrderAddComment', subargs);   
 }
 
 // ORDER SHIPMENTS
@@ -83,34 +84,57 @@ MagentoClient.prototype.commentOrder = function(increment_id, status, comment) {
 // method: getShipment
 MagentoClient.prototype.getShipment = function(shipment_id) {
     var subargs={shipmentIncrementId:shipment_id};
-    return this.customCall('salesOrderShipmentInfo', subargs);
+    return this.customCall('salesOrderShipmentInfo', subargs);   
 }
 
 // method: commentShipment
 MagentoClient.prototype.commentShipment = function(shipment_id, comment) {
     var subargs={shipmentIncrementId:shipment_id,comment:comment};
-    return this.customCall('salesOrderShipmentAddComment', subargs);
+    return this.customCall('salesOrderShipmentAddComment', subargs);   
 }
 
 // method: createShipment
 MagentoClient.prototype.createShipment = function(increment_id, comment) {
     var subargs={orderIncrementId:increment_id,comment:comment};
-    return this.customCall('salesOrderShipmentCreate', subargs);
+    return this.customCall('salesOrderShipmentCreate', subargs); 
 }
 
 // CATALOG
 
 // method: getProduct
-MagentoClient.prototype.getProduct = function(product_id) {
-    var subargs={productId:product_id};
+MagentoClient.prototype.getProduct = function(product_id, additionalArr) {
+    var subargs = {
+        productId:product_id,
+    };
+    if(additionalArr) {
+        subargs.attributes = { 
+            additional_attributes: {
+                item: additionalArr
+            }
+        };
+    }
     return this.customCall('catalogProductInfo', subargs);
+      
+}
+
+MagentoClient.prototype.getProductAttr = function(product_id) {
+    var subargs={productId:product_id};
+    return this.customCall('catalogProductAttributeInfo', subargs);     
+}
+
+MagentoClient.prototype.getCatalogAttrList = function(product_id) {
+    return this.customCall('catalogCategoryAttributeList');     
+}
+
+MagentoClient.prototype.getProductAttrList = function(product_id) {
+    return this.customCall('catalogProductAttributeList');     
 }
 
 // method: getStock
 MagentoClient.prototype.getStock = function(productArr) {
     if(!Array.isArray(productArr)) throw 'first argument is not an Array of product id\'s';
     var subargs={products:{product_id:productArr}};
-    return this.customCall('catalogInventoryStockItemList', subargs);
+    return this.customCall('catalogInventoryStockItemList', subargs);   
 }
 
 // method: setStock
@@ -118,7 +142,7 @@ MagentoClient.prototype.setStock = function(product_id, qty) {
     if( typeof product_id !== 'string' ) throw 'first argument is not a product ID string';
     if(!Number.isInteger(qty)) throw 'second argument is not an integer'
     var subargs={product:product_id,data:{qty:qty}};
-    return this.customCall('catalogInventoryStockItemUpdate', subargs);
+    return this.customCall('catalogInventoryStockItemUpdate', subargs);    
 }
 
 module.exports = MagentoClient;
